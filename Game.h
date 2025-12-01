@@ -6,7 +6,7 @@
 #include "RaycastEngine.h"
 #include "Seeker.h"
 
-enum GameState { Menu, Playing };
+enum GameState { Menu, Playing, DeathScreen };
 class Game {
 public:
   sf::RenderWindow window;
@@ -18,6 +18,11 @@ public:
   sf::Font font;
   sf::Text startText;
   sf::RectangleShape startButton;
+  sf::Text deathText;
+  sf::Text survivalText;
+  sf::Clock deathTimer;
+  sf::Clock gameTimer;
+  float survivalTime;
 
   Game();
   ~Game();
