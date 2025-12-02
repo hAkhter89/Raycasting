@@ -1,6 +1,6 @@
 // Lodev you're a legend
 // ^ This guy has a super cool name, Lode Vandevenne. 
-// He's also the person who's guide I'm follwoing for the most part.
+// He's also the person who's made a documentation for raycasting, which is where I have learnt this from.
 
 #include "RaycastEngine.h"
 
@@ -26,6 +26,7 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
         sf::Vector2i mapPos(static_cast<int>(player.position.x), static_cast<int>(player.position.y));
         
         // Distance the ray travels to cross one grid square in x or y direction
+        // This to make sure we only move a certain amount across a cell.
         sf::Vector2f deltaDist(std::fabs(1 / rayDir.x), std::fabs(1 / rayDir.y));
 
         sf::Vector2f sideDist;  // Distance from current position to next grid line
@@ -123,8 +124,10 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
 
         // Transform sprite position to camera space using inverse camera matrix
         // A lot of big words just to say that it converts coordinates (x, y) into what the camera can actually see
+        // The cameras viewing directions becomes the forward direction
+        // The camera plane (which is prependicular to viewing direction) becomes the horizontal
         double invDet = 1.0 / (player.plane.x * player.dir.y - player.dir.x * player.plane.y);
-        double transformX = invDet * (player.dir.y * spriteX - player.dir.x * spriteY);         // how far to the left.right the sprite is
+        double transformX = invDet * (player.dir.y * spriteX - player.dir.x * spriteY);         // how far to the left or right the sprite is 
         double transformY = invDet * (-player.plane.y * spriteX + player.plane.x * spriteY);    // how far away the sprite is
 
         // Skip sprites behind the player
@@ -150,7 +153,7 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
         if (drawEndX >= screenWidth) drawEndX = screenWidth - 1;
 
         // Procedural circle rendering
-        const float radiusNorm = 0.5f;  // Radius in normalized [0,1] texture space (it isnt normalized right now, but will be when we calculate u)
+        const float radiusNorm = 0.5f;  // Radius in normalized [0,1] texture space (it isnt excatly normalized right now, but will be when we calculate u)
         const sf::Color enemyColor = sf::Color::Red;
 
         // Draw sprite column by column
@@ -196,6 +199,6 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
         }
     }
 }
-
 // This is way too complicated, I should've done soemthing simpler.
 // Pls help. Im under the water.
+
