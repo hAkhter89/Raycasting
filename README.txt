@@ -19,6 +19,15 @@ and efficient rendering techniques.
 Massive credits to Lode Vandevenne for his guide to raycasting which helped me understand the concepts 
 
 
+
+============
+GITHUB REPO:
+============
+
+https://github.com/raufabdullah/Raycasting.git
+
+
+
 ============
 FOR WINDOWS:
 ============
@@ -30,6 +39,8 @@ FOR WINDOWS:
 
 ---> For running the project, use:
         -----> ./main
+
+
 
 ==========
 FOR LINUX:
@@ -50,6 +61,7 @@ then in /etc/pacman.conf, add sfml to IGNOREPKG line.
 
 --> For running the project:
         -----> ./main 
+
 
 
 ====================================================================================================================
