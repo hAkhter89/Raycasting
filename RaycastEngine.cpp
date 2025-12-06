@@ -20,10 +20,13 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
         // Calculate ray direction for current screen column
         // cameraX ranges from -1 (left) to +1 (right)
         float cameraX = 2 * x / static_cast<float>(screenWidth) - 1;
-        sf::Vector2f rayDir(player.dir.x + player.plane.x * cameraX, player.dir.y + player.plane.y * cameraX);
+        sf::Vector2f playerDir = ::getDir(player); // uses the friend function to access private data elements (with :: global scope)
+        sf::Vector2f playerPlane = ::getPlane(player); // uses the friend function to access data elements, we couldve also done this with getters
+        sf::Vector2f rayDir(playerDir.x + playerPlane.x * cameraX, playerDir.y + playerPlane.y * cameraX);
 
         // Current map position (which grid square we're in)
-        sf::Vector2i mapPos(static_cast<int>(player.position.x), static_cast<int>(player.position.y));
+        sf::Vector2f playerPos = player.getPosition();
+        sf::Vector2i mapPos(static_cast<int>(playerPos.x), static_cast<int>(playerPos.y));
         
         // Distance the ray travels to cross one grid square in x or y direction
         // This to make sure we only move a certain amount across a cell.
@@ -36,18 +39,18 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
         // Calculate step direction and initial sideDist
         if (rayDir.x < 0) { 
             step.x = -1; 
-            sideDist.x = (player.position.x - mapPos.x) * deltaDist.x; 
+            sideDist.x = (playerPos.x - mapPos.x) * deltaDist.x; 
         } else { 
             step.x = 1; 
-            sideDist.x = (mapPos.x + 1 - player.position.x) * deltaDist.x; 
+            sideDist.x = (mapPos.x + 1 - playerPos.x) * deltaDist.x; 
         }
 
         if (rayDir.y < 0) { 
             step.y = -1; 
-            sideDist.y = (player.position.y - mapPos.y) * deltaDist.y; 
+            sideDist.y = (playerPos.y - mapPos.y) * deltaDist.y; 
         } else { 
             step.y = 1; 
-            sideDist.y = (mapPos.y + 1 - player.position.y) * deltaDist.y; 
+            sideDist.y = (mapPos.y + 1 - playerPos.y) * deltaDist.y; 
         }
 
         // DDA (Digital Differential Analysis) algorithm - step through grid until we hit a wall
@@ -102,9 +105,11 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
     std::vector<SpriteInfo> sprites;
     
     // Calculate distance from player to each entity
+    sf::Vector2f playerPos2 = player.getPosition();
     for (size_t i = 0; i < entities.size(); ++i) {
-        double dx = entities[i]->position.x - player.position.x;
-        double dy = entities[i]->position.y - player.position.y;
+        sf::Vector2f entityPos = entities[i]->getPosition();
+        double dx = entityPos.x - playerPos2.x;
+        double dy = entityPos.y - playerPos2.y;
         double dist = dx * dx + dy * dy;  // Squared distance, (faster, good enough for sorting)
         sprites.push_back({i, dist});
     }
@@ -200,5 +205,4 @@ void RaycastEngine::render(sf::RenderWindow& window, const Player& player, const
     }
 }
 // This is way too complicated, I should've done soemthing simpler.
-// Pls help. Im under the water.
 

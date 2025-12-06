@@ -6,48 +6,53 @@
 #include <cmath>
 
 Player::Player() : speed(MOVE_SPEED), dir(-1.0f, 0.0f), plane(0.0f, 0.66f) {
-    position = sf::Vector2f(22.0f, 12.0f);  // Starting pos
+    setPosition(sf::Vector2f(22.0f, 12.0f));  // Starting pos
 }
 
 void Player::damage(int dmg) {
-    health -= dmg;
+    setHealth(getHealth() - dmg);
 }
 
 void Player::move(float deltaTime, const Map& map, const sf::Keyboard::Key forward, const sf::Keyboard::Key backward) {
-    float moveSpeed = speed * deltaTime;
+    float moveSpeed = getSpeed() * deltaTime;
+    sf::Vector2f pos = getPosition();
+    sf::Vector2f playerDir = ::getDir(*this);
+    
     if (sf::Keyboard::isKeyPressed(forward)) {
-        sf::Vector2f moveDelta = dir * moveSpeed;
+        sf::Vector2f moveDelta = playerDir * moveSpeed;
 
         // Separate X and Y for wall sliding (prevents clipping)
-        sf::Vector2f newPosX = position;
+        sf::Vector2f newPosX = pos;
         newPosX.x += moveDelta.x;
         if (!collides(newPosX, map)) {
-            position.x = newPosX.x;
+            pos.x = newPosX.x;
         }
 
-        sf::Vector2f newPosY = position;
+        sf::Vector2f newPosY = pos;
         newPosY.y += moveDelta.y;
         if (!collides(newPosY, map)) {
-            position.y = newPosY.y;
+            pos.y = newPosY.y;
         }
     }
 
     if (sf::Keyboard::isKeyPressed(backward)) {
-        sf::Vector2f moveDelta = dir * (-moveSpeed);
+        sf::Vector2f moveDelta = playerDir * (-moveSpeed);
 
         // Separate X and Y for wall sliding (to avoid clipping)
-        sf::Vector2f newPosX = position;
+        sf::Vector2f newPosX = pos;
         newPosX.x += moveDelta.x;
         if (!collides(newPosX, map)) {
-            position.x = newPosX.x;
+            pos.x = newPosX.x;
         }
 
-        sf::Vector2f newPosY = position;
+        sf::Vector2f newPosY = pos;
         newPosY.y += moveDelta.y;
         if (!collides(newPosY, map)) {
-            position.y = newPosY.y;
+            pos.y = newPosY.y;
         }
     }
+    
+    setPosition(pos);
 }
 
 void Player::rotate(float deltaTime, const sf::Keyboard::Key left, const sf::Keyboard::Key right) {
@@ -55,13 +60,19 @@ void Player::rotate(float deltaTime, const sf::Keyboard::Key left, const sf::Key
 
     if (sf::Keyboard::isKeyPressed(right)) rotSpeed = -rotSpeed;  // Invert for right turn
     if (sf::Keyboard::isKeyPressed(left) || sf::Keyboard::isKeyPressed(right)) {
-        float oldDirX = dir.x;
-        dir.x = dir.x * cos(rotSpeed) - dir.y * sin(rotSpeed);
-        dir.y = oldDirX * sin(rotSpeed) + dir.y * cos(rotSpeed);
+        sf::Vector2f playerDir = ::getDir(*this);
+        sf::Vector2f playerPlane = ::getPlane(*this);
+        
+        float oldDirX = playerDir.x;
+        playerDir.x = playerDir.x * cos(rotSpeed) - playerDir.y * sin(rotSpeed);
+        playerDir.y = oldDirX * sin(rotSpeed) + playerDir.y * cos(rotSpeed);
 
-        float oldPlaneX = plane.x;
-        plane.x = plane.x * cos(rotSpeed) - plane.y * sin(rotSpeed);
-        plane.y = oldPlaneX * sin(rotSpeed) + plane.y * cos(rotSpeed);
+        float oldPlaneX = playerPlane.x;
+        playerPlane.x = playerPlane.x * cos(rotSpeed) - playerPlane.y * sin(rotSpeed);
+        playerPlane.y = oldPlaneX * sin(rotSpeed) + playerPlane.y * cos(rotSpeed);
+        
+        ::setDir(*this, playerDir);
+        ::setPlane(*this, playerPlane);
     }
 }
 

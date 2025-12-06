@@ -5,19 +5,35 @@
 #include "Map.h"
 
 class Player : public Entity {
-public:
+private:
     float speed; 
     sf::Vector2f dir;   
-    sf::Vector2f plane; 
+    sf::Vector2f plane;
+    
+    // Friend functions for direction and plane
+    friend sf::Vector2f getDir(const Player& player);
+    friend void setDir(Player& player, sf::Vector2f d);
+    friend sf::Vector2f getPlane(const Player& player);
+    friend void setPlane(Player& player, sf::Vector2f p);
 
+public:
     Player();
-    void updateSpeed(int newSpeed) { speed = newSpeed; }
-
+    
+    // Movement
+    void setSpeed(int newSpeed) { speed = newSpeed; }
+    float getSpeed() const { return speed; }
+    
     void damage(int dmg);
     void move(float deltaTime, const Map& map, const sf::Keyboard::Key forward, const sf::Keyboard::Key backward);
     void rotate(float deltaTime, const sf::Keyboard::Key left, const sf::Keyboard::Key right);
 
     bool collides(const sf::Vector2f& testPos, const Map& map) const override;
 };
+
+// Friend function implementations
+inline sf::Vector2f getDir(const Player& player) { return player.dir; }
+inline void setDir(Player& player, sf::Vector2f d) { player.dir = d; }
+inline sf::Vector2f getPlane(const Player& player) { return player.plane; }
+inline void setPlane(Player& player, sf::Vector2f p) { player.plane = p; }
 
 #endif
