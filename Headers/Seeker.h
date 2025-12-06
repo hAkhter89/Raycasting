@@ -3,16 +3,17 @@
 #include "Enemy.h"
 
 class Seeker : public Enemy {
-public:
+private:
     bool alert;
     bool inRange;
 
+public:
     Seeker();
-    void updateAlert(bool newAlert) { alert = newAlert; }
-    void updateRange(bool newInRange) { inRange = newInRange; }
+    void updateAlert(bool newAlert);
+    void updateRange(bool newInRange);
 
     void update(Player& player, const Map& map, float deltaTime) override;
-    std::string getType() const override { return "Seeker"; }
+    std::string getType() const override;
 };
 
 #endif

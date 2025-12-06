@@ -10,7 +10,7 @@
 class Game; 
 
 class RaycastEngine {
-public:
+private:
     int screenWidth;
     int screenHeight;
     bool isRunning;
@@ -24,12 +24,18 @@ public:
         bool operator<(const SpriteInfo& other) const { return dist > other.dist; }
     };
 
+public:
     RaycastEngine(int w, int h);
+
     void addEntity(Entity* entity);
-    bool getIsRunning() const { return isRunning; }
-    void updateRun(bool run) { isRunning = run; }
+    
+    void updateRun(bool run);
 
     void render(sf::RenderWindow& window, const Player& player, const Map& map);
+
+    bool getIsRunning() const;
+
+    std::vector<Entity*>& getEntities();
 };
 
 #endif

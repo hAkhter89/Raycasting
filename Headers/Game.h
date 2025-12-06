@@ -25,12 +25,10 @@ private:
     sf::Clock gameTimer;
     float survivalTime;
 
-    void initMap();
-
 public:
     Game();
     ~Game();
-    void close() { window.close(); }
+    void close();
     void run();
 };
 

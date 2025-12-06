@@ -1,4 +1,20 @@
-#include "Enemy.h"
+#include "Headers/Enemy.h"
+
+int Enemy::getRange() const { return range; }
+
+int Enemy::getDamage() const { return damage; }
+
+int Enemy::getSpeed() const { return speed; }
+
+int Enemy::getCount() const { return count; }
+
+void Enemy::setRange(int r) { range = r; }
+
+void Enemy::setDamage(int d) { damage = d; }
+
+void Enemy::setSpeed(int s) { speed = s; }
+
+std::string Enemy::getType() const{ return "Enemy"; }
 
 Enemy::Enemy() : range(5), damage(10), speed(3){
     count++;
@@ -29,8 +45,8 @@ bool Enemy::collides(const sf::Vector2f& testPos, const Map& map) const {
     for (const auto& p : points) {
         int mx = static_cast<int>(p.x);
         int my = static_cast<int>(p.y);
-        if (mx < 0 || mx >= map.mapWidth || my < 0 || my >= map.mapHeight ||
-            map.grid[my][mx] != 0) {
+        if (mx < 0 || mx >= map.getMapWidth() || my < 0 || my >= map.getMapHeight() ||
+            map.getGrid()[my][mx] != 0) {
             return true;  // Hits wall or out of bounds
         }
     }

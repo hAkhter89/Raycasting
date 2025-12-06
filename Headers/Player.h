@@ -20,8 +20,8 @@ public:
     Player();
     
     // Movement
-    void setSpeed(int newSpeed) { speed = newSpeed; }
-    float getSpeed() const { return speed; }
+    void setSpeed(int newSpeed);
+    float getSpeed() const;
     
     void damage(int dmg);
     void move(float deltaTime, const Map& map, const sf::Keyboard::Key forward, const sf::Keyboard::Key backward);
@@ -31,9 +31,14 @@ public:
 };
 
 // Friend function implementations
+// (idk why I made these friend functions, but we needed some for the project so its fine)
+// inline is needed here to avoid multiple definitions of the function (as it is implemented in header files)
 inline sf::Vector2f getDir(const Player& player) { return player.dir; }
+
 inline void setDir(Player& player, sf::Vector2f d) { player.dir = d; }
+
 inline sf::Vector2f getPlane(const Player& player) { return player.plane; }
+
 inline void setPlane(Player& player, sf::Vector2f p) { player.plane = p; }
 
 #endif
