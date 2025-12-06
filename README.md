@@ -1,20 +1,29 @@
-Preequisites to running the program --
+Pre-requisites to running the program --
 **SFML 2.6.1(IT WILL NOT WORK WITH SFML 3) --
-If testing on LINUX:
-Remove your current sfml build:
-sudo pacman -R sfml (OR EQUIVALENT FOR YOUR DISTRO)
-then to download 2.6.1 specifically, sudo pacman -U https://archive.archlinux.org/packages/s/sfml/sfml-2.6.1-1-x86_64.pkg.tar.zst (OR EQUIVALENT IN YOUR DISTRO LOOK IT UP DUDE)
-in /etc/pacman.conf, add sfml to IGNOREPKG line.
 
 FOR WINDOWS:
-I HAVE NO IDEA HOW YOU CAN MAKE IT RUN, SO GOOD LUCK THERE
+--> Unless you have set up the SFML library before, use WSL. Don't bother with path shenanigans on Windows.
 
-TO RUN THE PROGRAM:
-g++ *.cpp -o raycast -lsfml-graphics -lsfml-window -lsfml-system (inside the root folder, /Raycasting)
-then, ./raycast.exe (INSIDE THE ROOT FOLDER /Raycasting)
+>>> For compiling the project, use the following command:
+-----> g++ *.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system (inside the root folder, /Raycasting)
 
-AND THERE YOU HAVE IT DOOM64 BUT THE SUCKS VERSION.
+>>> For running the project, use:
+-----> ./main
 
-THANKS FOR READING MAN.
+FOR LINUX:
+--> Remove your current sfml build:
+sudo pacman -R sfml (OR EQUIVALENT FOR YOUR DISTRO)
+--> then to download 2.6.1 specifically:
+sudo pacman -U https://archive.archlinux.org/packages/s/sfml/sfml-2.6.1-1-x86_64.pkg.tar.zst (OR EQUIVALENT IN YOUR DISTRO LOOK IT UP DUDE)
+then in /etc/pacman.conf, add sfml to IGNOREPKG line.
 
-CREDITS(RAUF, HASSAN)
+>>> For compiling the project:
+g++ *.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system (inside the root folder, /Raycasting)
+
+>>> For running the project:
+ ./main
+
+AND THERE YOU HAVE IT, DOOM64 BUT SUCKS VERISON (IT IS NOT LIKE DOOM64 AT ALL, THAT GAME DOESNT EVEN USE RAYCASTING)
+
+
+CREDITS -> RAUF, HASSAN
