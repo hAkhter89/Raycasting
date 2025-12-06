@@ -1,4 +1,7 @@
 {
+    "files.exclude": {
+        "README.md": true
+    },
     "files.associations": {
         "optional": "cpp",
         "cmath": "cpp",
