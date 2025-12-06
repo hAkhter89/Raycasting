@@ -1,13 +1,17 @@
-#include "Player.h"
+#include "Headers/Player.h"
 #include <cmath>
-#include "Constants.h"
-#include "Map.h"
+#include "Headers/Constants.h"
+#include "Headers/Map.h"
 #include <vector>
 #include <cmath>
 
 Player::Player() : speed(MOVE_SPEED), dir(-1.0f, 0.0f), plane(0.0f, 0.66f) {
     setPosition(sf::Vector2f(22.0f, 12.0f));  // Starting pos
 }
+
+void Player::setSpeed(int newSpeed) { speed = newSpeed; }
+
+float Player::getSpeed() const { return speed; }
 
 void Player::damage(int dmg) {
     setHealth(getHealth() - dmg);
@@ -91,8 +95,8 @@ bool Player::collides(const sf::Vector2f& testPos, const Map& map) const {
     for (const auto& p : points) {
         int mx = static_cast<int>(p.x);
         int my = static_cast<int>(p.y);
-        if (mx < 0 || mx >= map.mapWidth || my < 0 || my >= map.mapHeight ||
-            map.grid[my][mx] != 0) {
+        if (mx < 0 || mx >= map.getMapWidth() || my < 0 || my >= map.getMapHeight() ||
+            map.getGrid()[my][mx] != 0) {
             return true;  // Hits wall or out of bounds
         }
     }

@@ -6,7 +6,7 @@
 #include "Constants.h"
 
 class Map {
-public:
+private:
     int mapWidth;
     int mapHeight;
     std::vector<std::vector<int>> grid = {
@@ -63,10 +63,20 @@ public:
     //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     // };
 
+public:
     Map();
+
     Map(int h, int w);
+
     std::vector<std::vector<int>>& getGrid();
+
     void updateMap(int x, int y, int value);
+
+    int getMapWidth() const;
+
+    int getMapHeight() const;
+
+    const std::vector<std::vector<int>>& getGrid() const;
 };
 
 #endif
